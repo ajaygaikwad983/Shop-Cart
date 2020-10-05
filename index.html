@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Shop Cart</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../fontawesome-free-5.12.0-web/css/all.css">
+    <style>
+        body {
+            font-family: Poppins;
+        }
+        .container-fluid {
+            background-image: linear-gradient(white 50%, lightslategray);
+            height: 100%;
+            margin: 10px 0px;    
+        }
+        .container {
+            margin: 0px 150px;
+        }
+        .header {
+            height: 80px;
+            background: rgba(90, 149, 183, 0.9);
+        }
+        .logo {
+            width: 200px;
+            height: 70px;
+            padding: 5px 0px;
+            float: left;
+        }
+        .navbar {
+            float: right;
+            font-style: normal;
+            font-weight: 300;
+            font-size: 20px;
+        }
+        a {
+            color: black;
+        }
+        a:link {
+            text-decoration: none;
+            color: black;
+            margin: 10px 0px;
+        }
+        .input-form {
+            background: rgba(90, 149, 183, 0.3);
+            border-radius: 34px;
+            width: 300px;
+            height: 420px;
+            margin-top: 30px;
+        }
+        .btn button {
+            width: 170px;
+            height: 43px;
+            text-align: center;
+        }
+        .btn {
+            margin-top: 10px;
+            margin-left: 28px;
+        }
+        .table {
+            width: auto;
+            height: auto;
+            margin-top: 30px;
+            display: none;
+        }
+        .footer {
+            height: 80px;
+            background: rgba(90, 149, 183, 0.9);
+            position: relative;
+        }
+        .footer p {
+            font-style: normal;
+            font-weight: 300;
+            font-size: 20px;
+            width: 312px;
+            height: 14px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+        }
+        th {
+            background: rgba(90, 149, 183, 0.9);
+            color:white;
+        }
+    </style>
+    <script>
+        var Categories = ["Select Category","Electronics","Shoes","Fashion"];
+        
+        function bodyLoad() {
+            var lstCategories=document.getElementById("lstCategories");
+            for(var i=0;i<Categories.length;i++){
+                var option = document.createElement("option");
+                option.text = Categories[i];
+                option.value = Categories[i];
+                lstCategories.appendChild(option);
+            }
+        }
+            var electronics = ["Select Product","Samsung TV","MI TV"];
+            var shoes = ["Select Product","Nike Casual","Lee Cooper Boot"];
+            var fashion = ["Select Product","Lee Jeans","Sunglasses"];
+            var data = [
+                {Name:"Samsung TV", Price:45000.66,Photo:"images/samsung.jpg"},
+                {Name:"MI TV", Price:13000,Photo:"images/mi.jpg"},
+                {Name:"Nike Casual", Price:4500,Photo:"images/nike.jpg"},
+                {Name:"Lee Cooper Boot", Price:5000.45,Photo:"images/lee cooper.jpg"},
+                {Name:"Lee Jeans", Price:8500.55,Photo:"images/jeans.jpg"},
+                {Name:"Sunglasses", Price:45000.66,Photo:"images/sunglasses.jpg"}
+            ]
+
+        function showProduct(txt){
+            var lstProducts=document.getElementById("lstProducts");
+            for(var i=0;i<txt.length;i++){
+                var option = document.createElement("option"); 
+                option.text = txt[i];
+                option.value = txt[i];
+                lstProducts.appendChild(option);
+                 
+            }
+        }
+
+        function categoryChange() {
+            var text = document.getElementById("lstCategories").value;
+            switch(text){
+                case "Electronics": 
+                document.getElementById("lstProducts").innerHTML = "";
+                showProduct(electronics);
+                break;
+
+                case "Shoes": 
+                document.getElementById("lstProducts").innerHTML = "";
+                showProduct(shoes);
+                break;
+
+                case "Fashion": 
+                document.getElementById("lstProducts").innerHTML = "";
+                showProduct(fashion);
+                break;
+
+                default: 
+                document.getElementById("lstProducts").innerHTML = "";
+                break;
+            }
+        }
+
+        var Product=[];
+        function productChanged() {
+            var productName = document.getElementById("lstProducts").value;
+            Product = data.filter(x => x.Name == productName);
+            document.getElementById("Pic").src = Product[0].Photo;
+            document.getElementById("lblPrice").innerHTML="&#8377;" + Product[0].Price;
+        }
+
+        var CartItems=[];
+        function AddToCartClick() {
+            CartItems.push(Product[0]);
+            for(var i=0;i<CartItems.length;i++){
+                var tr=document.createElement("tr");
+                var tdName=document.createElement("td");
+                var tdPrice=document.createElement("td");
+                var tdPhoto=document.createElement("td");
+                tdName.innerHTML=Product[0].Name;
+                tdPrice.innerHTML=Product[0].Price;
+                 var img = new Image();
+                 img.src = Product[0].Photo;
+                 img.width="50";
+                 img.height="50";
+                 tdPhoto.appendChild(img);
+                 tr.appendChild(tdName);
+                 tr.appendChild(tdPrice);
+                 tr.appendChild(tdPhoto);
+            }
+            document.getElementById("tbody").appendChild(tr);
+            document.getElementById("lblCount").innerHTML=CartItems.length;
+        }
+
+        function showCart() {
+            var displayStyle = document.getElementById("Cart").style.display;
+            document.getElementById("Cart").style.display = (displayStyle=="none")?"block":"none";
+        }
+
+        function closeClick() {
+            document.getElementById("Cart").style.display = "none";
+        }
+    </script>
+</head>
+<body onload="bodyLoad()">
+    <div class="container-fluid">
+        <div class="header">
+            <div class="container">
+                <div class="logo">
+                    <img src="images/Logo.svg" class="logo" alt="logo here">
+                </div>
+                <div class="navbar">
+                    <ul class="nav">
+                        <li class="nav-item"><a href="#" class="nav-link">Home</a></li>
+                        <li class="nav-item"><a href="#" class="nav-link">Cart</a></li>
+                        <li class="nav-item"><a href="#" class="nav-link">Reviews</a></li>
+                        <li class="nav-item"><a href="#" class="nav-link">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container row justify-content-between">
+            <div class="input-form col-3">
+                <div class="form-group">
+                    <label style="font-weight: 300; font-size: 18px; line-height: 12px; margin-top:30px">Select Categories</label>
+                    <div>
+                        <select id="lstCategories" onchange="categoryChange()" class="form-control">
+                            
+
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label style="font-weight: 300; font-size: 18px; line-height: 12px; margin-top:15px">Select Product</label>
+                    <div>
+                        <select id="lstProducts" onchange="productChanged()" class="form-control">
+                            
+
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label style="font-weight: 300; font-size: 18px; line-height: 12px; margin-top:15px">Preview</label>
+                    <div>
+                        <img id="Pic" width="100" height="100">
+                        <label id="lblPrice"></label>
+                    </div>   
+                </div>
+                <div class="btn">
+                    <button class="btn-primary" onclick="AddToCartClick()">
+                        <span class="fa fa-shopping-cart"></span>&nbsp;&nbsp;<span style="font-weight: 300; font-size: 18px; line-height: 12px; margin-top:15px">Add to Cart</span>
+                    </button>
+                </div>
+            </div>
+
+        
+            <table class="table  table-striped table-hover bg-light" frame="box" id="Cart">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Preview</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                    
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3"><button class="btn-primary btn-block" onclick="closeClick()">Close</button></td>
+                    </tr>
+                </tfoot>
+            </table>
+            
+
+            <div class="cart col-1" style="margin-top: 30px;">
+                <a href="#" onclick="showCart()"><img src="images/carticon.svg" width="40px" height="40px"></a>
+                <label id="lblCount"></label>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>&copy; Copyright 2020 Shop Cart</p>
+        </div>
+
+        
+    </div>
+
+</body>
+</html>
